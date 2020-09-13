@@ -16,24 +16,28 @@ const ContactState = props => {
   const initialState = {
     contacts: [
       {
+        id: 1,
         type: 'personal',
         name: 'Ted Johnson',
         email: 'sara@gmail.com',
         phone: '777 888 999'
       },
       {
+        id: 2,
         type: 'professional',
         name: 'Sara Smith',
         email: 'sara@gmail.com',
         phone: '555 666 777'
       },
       {
+        id: 3,
         type: 'professional',
         name: 'Paweł Bąk',
         email: 'pawel@gmail.com',
         phone: '333 444 555'
       },
       {
+        id: 4,
         type: 'professional',
         name: 'Jan Nowak',
         email: 'jan@gmail.com',
