@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import ContactContext from '../../context/contact/contactContext';
 
 const ContactItem = ({ contact }) => {
-  const contactContext = useContext(ContactContext);
-  const { deleteContact, setCurrent, clearCurrent } = contactContext;
+  const { deleteContact, setCurrent, clearCurrent } = useContext(
+    ContactContext
+  );
 
   const { id, name, email, phone, type } = contact;
 
