@@ -10,6 +10,9 @@ import Navbar from './components/layout/Navbar';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alerts from './components/layout/Alerts';
+import setAuthToken from './utils/setAuthToken';
+
+if (localStorage.token) setAuthToken(localStorage.token);
 
 const App = () => {
   return (
