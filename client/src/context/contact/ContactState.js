@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import ContactContext from './contactContext';
 import contactReducer from './contactReducer';
 import {
@@ -9,51 +9,33 @@ import {
   CLEAR_CURRENT,
   UPDATE_CONTACT,
   FILTER_CONTACTS,
-  CLEAR_FILTER
+  CLEAR_FILTER,
+  CONTACT_ERROR
 } from '../types';
 
 const ContactState = props => {
   const initialState = {
-    contacts: [
-      {
-        id: 1,
-        type: 'personal',
-        name: 'Ted Johnson',
-        email: 'sara@gmail.com',
-        phone: '777 888 999'
-      },
-      {
-        id: 2,
-        type: 'professional',
-        name: 'Sara Smith',
-        email: 'sara@gmail.com',
-        phone: '555 666 777'
-      },
-      {
-        id: 3,
-        type: 'professional',
-        name: 'Paweł Bąk',
-        email: 'pawel@gmail.com',
-        phone: '333 444 555'
-      },
-      {
-        id: 4,
-        type: 'professional',
-        name: 'Jan Nowak',
-        email: 'jan@gmail.com',
-        phone: '111 222 333'
-      }
-    ],
+    contacts: [],
     current: null,
-    filtered: null
+    filtered: null,
+    error: null
   };
 
   const [state, dispatch] = useReducer(contactReducer, initialState);
 
   // Add Contact
-  const addContact = contact => {
-    contact.id = uuidv4();
-    dispatch({ type: ADD_CONTACT, payload: contact });
+  const addContact = async contact => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      const res = await axios.post('/api/contacts', contact, config);
+      dispatch({ type: ADD_CONTACT, payload: res.data });
+    } catch (err) {
+      dispatch({ type: CONTACT_ERROR, payload: err.response.msg });
+    }
   };
 
   // Delete Contact
@@ -92,6 +74,7 @@ const ContactState = props => {
         contacts: state.contacts,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
         addContact,
         deleteContact,
         setCurrent,
